@@ -2,51 +2,107 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>TD404 Stellingen</title>
+  <title>TD404 lesinstellingen</title>
   <style>
     body {
       background-color: #6E5EA9;
       color: white;
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      text-align: center;
       padding: 40px;
     }
     h1 {
-      font-size: 40px;
       font-family: 'Arial Black', Gadget, sans-serif;
+      font-size: 40px;
+      margin-bottom: 10px;
     }
-    button {
-      margin: 20px;
-      padding: 15px 30px;
+    h2 {
+      font-size: 24px;
+      margin-top: 0;
+    }
+    label {
+      display: block;
+      margin-top: 25px;
       font-size: 18px;
-      border: none;
-      border-radius: 10px;
+      font-weight: bold;
+    }
+    select, input[type=submit] {
+      font-size: 16px;
+      padding: 8px;
+      margin-top: 5px;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       background-color: white;
       color: #6E5EA9;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #ddd;
+      border: none;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
 
-  <h1>TD404 Stellingen</h1>
-  <p>Klik op een stelling om deze af te spelen op de Arduino.</p>
+  <h1>TD404 lesinstellingen</h1>
+  <h2>Behandelvolgorde Stellingen</h2>
 
-  <button onclick="stuurStelling(1)">Stelling 1</button>
-  <button onclick="stuurStelling(2)">Stelling 2</button>
-  <button onclick="stuurStelling(3)">Stelling 3</button>
-  <button onclick="stuurStelling(4)">Stelling 4</button>
+  <form onsubmit="verzendFormulier(event)">
+    <label for="s1">Kies de 1ste stelling die behandeld gaat worden:</label>
+    <select name="s1" id="s1">
+      <option value="0">Geen stelling</option>
+      <option value="1">Stelling 1: (WAAR) Beroemdheden worden soms ingezet om mensen iets te laten geloven.</option>
+      <option value="2">Stelling 2: (WAAR) Propaganda werkt beter als het inspeelt op emoties dan op feiten.</option>
+      <option value="3">Stelling 3: (ONWAAR) Zoekmachines laten altijd eerst de meest eerlijke informatie zien.</option>
+      <option value="4">Stelling 4: (ONWAAR) Als je vaak hetzelfde hoort of leest, klopt het meestal wel.</option>
+    </select>
+
+    <label for="s2">Kies de 2e stelling die behandeld gaat worden:</label>
+    <select name="s2" id="s2">
+      <option value="0">Geen stelling</option>
+      <option value="1">Stelling 1</option>
+      <option value="2">Stelling 2</option>
+      <option value="3">Stelling 3</option>
+      <option value="4">Stelling 4</option>
+    </select>
+
+    <label for="s3">Kies de 3e stelling die behandeld gaat worden:</label>
+    <select name="s3" id="s3">
+      <option value="0">Geen stelling</option>
+      <option value="1">Stelling 1</option>
+      <option value="2">Stelling 2</option>
+      <option value="3">Stelling 3</option>
+      <option value="4">Stelling 4</option>
+    </select>
+
+    <label for="s4">Kies de 4e stelling die behandeld gaat worden:</label>
+    <select name="s4" id="s4">
+      <option value="0">Geen stelling</option>
+      <option value="1">Stelling 1</option>
+      <option value="2">Stelling 2</option>
+      <option value="3">Stelling 3</option>
+      <option value="4">Stelling 4</option>
+    </select>
+
+    <br><br>
+    <input type="submit" value="Start">
+  </form>
 
   <script>
-    const arduinoIP = "http://192.168.1.44"; // ← Vervang dit met het IP van jouw Arduino 4FA82
+    const arduinoIP = "http://192.168.1.44"; // ← Vervang dit met jouw Arduino IP (alleen lokaal)
 
-    function stuurStelling(nummer) {
-      fetch(`${arduinoIP}/play/${nummer}`)
-        .then(() => alert(`Stelling ${nummer} verzonden naar Arduino`))
-        .catch(() => alert("Kon geen verbinding maken met Arduino"));
+    function verzendFormulier(event) {
+      event.preventDefault();
+
+      const keuzes = [
+        document.getElementById("s1").value,
+        document.getElementById("s2").value,
+        document.getElementById("s3").value,
+        document.getElementById("s4").value
+      ];
+
+      keuzes.forEach((keuze, index) => {
+        if (keuze !== "0") {
+          fetch(`${arduinoIP}/play/${keuze}`)
+            .then(() => console.log(`Stelling ${keuze} verzonden.`))
+            .catch(() => alert("⚠️ Kon geen verbinding maken met Arduino"));
+        }
+      });
     }
   </script>
 
