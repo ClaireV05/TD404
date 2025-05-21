@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>TD404 Stellingen</title>
+  <style>
+    body {
+      background-color: #6E5EA9;
+      color: white;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      font-size: 40px;
+      font-family: 'Arial Black', Gadget, sans-serif;
+    }
+    button {
+      margin: 20px;
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background-color: white;
+      color: #6E5EA9;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>TD404 Stellingen</h1>
+  <p>Klik op een stelling om deze af te spelen op de Arduino.</p>
+
+  <button onclick="stuurStelling(1)">Stelling 1</button>
+  <button onclick="stuurStelling(2)">Stelling 2</button>
+  <button onclick="stuurStelling(3)">Stelling 3</button>
+  <button onclick="stuurStelling(4)">Stelling 4</button>
+
+  <script>
+    const arduinoIP = "http://192.168.1.44"; // ← Vervang dit met het IP van jouw Arduino 4FA82
+
+    function stuurStelling(nummer) {
+      fetch(`${arduinoIP}/play/${nummer}`)
+        .then(() => alert(`Stelling ${nummer} verzonden naar Arduino`))
+        .catch(() => alert("Kon geen verbinding maken met Arduino"));
+    }
+  </script>
+
+</body>
+</html>
